@@ -1,4 +1,5 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { LayersService } from '../layers.service';
 // @ts-ignore
 import * as L from 'leaflet';
 
@@ -9,31 +10,21 @@ import * as L from 'leaflet';
   styleUrls: ['./map.component.css']
 })
 
-export class MapComponent implements AfterViewInit {
-  constructor() { }
+export class MapComponent implements OnInit {
+  legend_view:boolean = false;
+  
+  constructor(private layerService: LayersService) { }
 
-  ngAfterViewInit(): void {
-
-    function highlightFeature(e:any) {
-
-      alert(e.latlng);
-
+  
+  ngOnInit(): void {
+    ////////// on dblclick event /////////////////
+    function highlightFeature(e:any){
+      //this.legend_view = false;
+      let div:any = document.getElementById('dataDiv');
+      div.innerHTML=`<p>${e.latlng}</p>`;
+      //alert(e.latlng);
     }
-
-    let map = L.map('map').setView([44.414165, 8.942184], 5);
-
-    //OpenStreetMap layer
-    let myLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      minZoom: 3,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
-
-    //markers
-    var marker_genoa = L.marker([44.4, 8.9]).addTo(map).bindPopup("<b>Genoa!</b><br>ETT S.p.A.<br>Double click to see the coordination!");
-    var marker_manduria = L.marker([40.40221612940531, 17.632182690036974]).addTo(map);
-    //marker_manduria.bindPopup("<b>Manduria!</b><br>Ali Hussain").openPopup();
-    marker_manduria.bindPopup("<b>Manduria!</b><br>Ali Hussain");
+    /////////////// pointers dblclick event ///////////////////
     function onEachFeature(feature: any, layer: any) {
       // does this feature have a property named popupContent?
       if (feature.properties && feature.properties.popupContent) {
@@ -45,10 +36,20 @@ export class MapComponent implements AfterViewInit {
 
     }
 
+    let map = L.map('map',{fullscreenControl: true}).setView([44.414165, 8.942184], 5);
+    
+    //markers
+    var marker_genoa = L.marker([44.4, 8.9]).addTo(map).bindPopup("<b>Genoa!</b><br>ETT S.p.A.<br>Double click to see the coordination!");
+    var marker_manduria = L.marker([40.40221612940531, 17.632182690036974]).addTo(map);
+    //marker_manduria.bindPopup("<b>Manduria!</b><br>Ali Hussain").openPopup();
+    marker_manduria.bindPopup("<b>Manduria!</b><br>Ali Hussain");
+    
+
     //double click event listener
     marker_genoa.on('dblclick', highlightFeature);
-
-    ////////////////// DATA ////////////
+    
+    
+    /////////////////// manual data  ///////////////////
     var points = [{
       "type": "Feature",
       "properties": {
@@ -92,11 +93,18 @@ export class MapComponent implements AfterViewInit {
         ]
       }
     }];
-    //////////////////              wms layer     //////////////
+
+    ///////////////// OpenStreetMap layer /////////////////
+    let myLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      minZoom: 3,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    ////////////////// wms layer     //////////////
     var wmsLayer = L.tileLayer.wms('http://ows.mundialis.de/services/service?', {
       layers: 'TOPO-OSM-WMS'
     });
-    ////////////////        earth at night layer       ////////////
+    ////////////////  earth at night layer       ////////////
     var earthatnight = L.tileLayer('https://map1.vis.earthdata.nasa.gov/wmts-webmerc/VIIRS_CityLights_2012/default/{time}/{tilematrixset}{maxZoom}/{z}/{y}/{x}.{format}', {
       attribution: 'Imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (<a href="https://earthdata.nasa.gov">ESDIS</a>) with funding provided by NASA/HQ.',
       bounds: [[-85.0511287776, -179.999999975], [85.0511287776, 179.999999975]],
@@ -106,7 +114,8 @@ export class MapComponent implements AfterViewInit {
       time: '',
       tilematrixset: 'GoogleMapsCompatible_Level'
     });
-    /////////////////////////   points on map           /////////////
+    
+    /////////////////////////   points style        /////////////
     let geoData = L.geoJSON(points, {
       style: function (feature: any): any {
         switch (feature.properties.name) {
@@ -116,17 +125,33 @@ export class MapComponent implements AfterViewInit {
       },
       onEachFeature: onEachFeature
     }).addTo(map);
-    ///////////////////////    layers control    ////////////////////
-    var baseMaps = {
-      "OpenStreetMap": myLayer,
-      "EarthAtNight": earthatnight,
-      "wms": wmsLayer
+    var stateStyle = {
+      "color": "#008f68",
+      "weight": 3,
+      "opacity": 0.5,
+      "fillOpacity": 0.8,
+      "fillColor": '#6DB65B'
     };
-    var overlayMaps = {
-      "Paths": geoData
-    };
-    L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
+    let usaData;
+    ////////////////// DATA from Json ////////////
+    this.layerService.getStateShapes().subscribe(states => {
+      usaData = L.geoJSON(states, {
+        style: stateStyle
+      }).addTo(map);
 
+      ///////////////////////    layers control    ////////////////////
+      var baseMaps = {
+        "OpenStreetMap": myLayer,
+        "EarthAtNight": earthatnight,
+        "wms": wmsLayer
+      };
+      var overlayMaps = {
+        "Paths": geoData,
+        "USA States": usaData,
+      };
+      L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
+    });
+  
 
   }
 
