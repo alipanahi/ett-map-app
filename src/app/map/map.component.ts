@@ -14,7 +14,7 @@ export class MapComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    function highlightFeature(e: any) {
+    function highlightFeature(e:any) {
 
       alert(e.latlng);
 
