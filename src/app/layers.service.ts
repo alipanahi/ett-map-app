@@ -9,6 +9,6 @@ export class LayersService {
   constructor(private http: HttpClient) { }
 
   getStateShapes() {
-    return this.http.get('/assets/layers_data.json');
+    return this.http.get('/assets/usaStates_data.json');
   }
 }

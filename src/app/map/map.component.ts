@@ -75,78 +75,34 @@ export class MapComponent implements OnInit {
       // remove class active-sidebar
       document.querySelector(".map_lengend")?.classList.add("hidden");
     }
-
+    // async function to get data from json
+    async function fetchData(url:any) {
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        return data;
+      } catch (err) {
+        console.error(err);
+      }
+    }
 
 
     let map = L.map('map',{fullscreenControl: true}).setView([44.414165, 8.942184], 5);
     
-    /////////////////// manual data  ///////////////////
-    var points = [{
-      "type": "Feature",
-      "properties": {
-        "name": "Genoa",
-        "amenity": "Genoa (Genova) is a port city and the capital of northwest Italy's Liguria region. It's known for its central role in maritime trade over many centuries.",
-        "popupContent": "<b>Genoa!</b><br>Double click to see the details!"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [8.9, 44.4]
-      }
-    },{
-      "type": "Feature",
-      "properties": {
-        "name": "Manduria",
-        "amenity": "Manduria is a city and comune of Apulia, Italy, in the province of Taranto. With c. 32,000 inhabitants, it is located 35 kilometres east of Taranto. ",
-        "popupContent": "<b>Manduria!</b><br>Double click to see the details!"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [17.632182690036974, 40.40221612940531]
-      }
-    }, {
-      "type": "Feature",
-      "properties": {
-        "name": "Rome",
-        "amenity": "Rome is the capital city of Italy. It is also the capital of the Lazio region, the centre of the Metropolitan City of Rome, and a special comune named Comune di Roma Capitale.",
-        "popupContent": "<b>Rome!</b><br>Double click to see the details!"
-      },
-      "geometry": {
-        "type": "Point",
-        "coordinates": [12.454277110931622, 41.87573990881038]
-      }
-    }, {
-      "type": "Feature",
-      "properties": {
-        "name": "genoa",
-        "amenity": "path to Genoa",
-        "popupContent": "<b>fastes path to Genoa!</b><br>Double click to see the details!"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [17.632182690036974, 40.40221612940531],
-          [12.519242926923734, 41.856478659775874],
-          [8.942184, 44.414165]
-        ]
-      }
-    }, {
-      "type": "Feature",
-      "properties": {
-        "name": "roma",
-        "amenity": "Path to roma",
-        "popupContent": "<b>This is the path to roma!</b><br>Double click to see the details!"
-      },
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [17.632182690036974, 40.40221612940531],
-          [16.86284396816336, 41.10767086815544],
-          [14.235613478066037, 40.85209446693129],
-          [12.454277110931622, 41.87573990881038]
-        ]
-      }
-    }];
-
+    /////////////////// pointers data from json file  ///////////////////
+    let geoData:any;
+    fetchData('/assets/pointers.json')
+      .then((data) => {
+        geoData = L.geoJSON(data, {
+          style: function (feature: any): any {
+            switch (feature.properties.name) {
+              case 'genoa': return { color: "#ff0000", weight: 4, opacity: 0.5 };
+              case 'roma': return { color: "#0000ff", weight: 4 };
+            }
+          },
+          onEachFeature: onEachFeature
+        }).addTo(map);
+    }); 
     ///////////////// OpenStreetMap layer /////////////////
     let myLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
@@ -156,9 +112,6 @@ export class MapComponent implements OnInit {
     ////////////////// wms layer     //////////////
     var wmsLayer = L.tileLayer.wms('https://ows.mundialis.de/osm/service?', {
       layers: 'TOPO-OSM-WMS'
-    });
-    var Floods = L.tileLayer.wms('http://wms.pcn.minambiente.it/ogc?',{
-      layers: 'Sicilia_ITH2018'
     });
     ////////////////  earth at night layer       ////////////
     var earthatnight = L.tileLayer('https://map1.vis.earthdata.nasa.gov/wmts-webmerc/VIIRS_CityLights_2012/default/{time}/{tilematrixset}{maxZoom}/{z}/{y}/{x}.{format}', {
@@ -170,17 +123,12 @@ export class MapComponent implements OnInit {
       time: '',
       tilematrixset: 'GoogleMapsCompatible_Level'
     });
-    
+    //layer from www.pcn.minambiente.it
+    var Floods = L.tileLayer.wms('http://wms.pcn.minambiente.it/ogc?',{
+      layers: 'Sicilia_ITH2018'
+    });
     /////////////////////////   points style        /////////////
-    let geoData = L.geoJSON(points, {
-      style: function (feature: any): any {
-        switch (feature.properties.name) {
-          case 'genoa': return { color: "#ff0000", weight: 4, opacity: 0.5 };
-          case 'roma': return { color: "#0000ff", weight: 4 };
-        }
-      },
-      onEachFeature: onEachFeature
-    }).addTo(map);
+    
     var stateStyle = {
       "color": "#008f68",
       "weight": 3,
