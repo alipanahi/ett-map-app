@@ -1,0 +1,22 @@
+[
+    {
+        "url": "https://ows.mundialis.de/osm/service?",
+        "layers": "TOPO-OSM-WMS",
+        "name":"wmsLayer"
+    },
+    {
+        "url": "http://wms.pcn.minambiente.it/ogc?map=/ms_ogc/WMS_v1.3/Vettoriali/Batimetrica.map",
+        "layers": "EL.BATIMETRICA.",
+        "name":"Floods"
+    },
+    {
+        "url": "http://wms.pcn.minambiente.it/ogc?map=/ms_ogc/WMS_v1.3/Vettoriali/Bacini_idrografici.map",
+        "layers": "ID.ACQUEFISICHE.BACINIIDROGRAFICI.PRINCIPALI",
+        "name":"predefinito"
+    },
+    {
+        "url": "http://wms.pcn.minambiente.it/ogc?map=/ms_ogc/WMS_v1.3/Vettoriali/Carta_ecopedologica.map",
+        "layers": "GE.CARTAECOPEDOLOGICA.GENERALE",
+        "name":"ecopedologica"
+    }
+]

@@ -1,0 +1,34 @@
+[
+    {
+        "type": "Feature",
+        "properties": {
+          "name": "genoa",
+          "amenity": "path to Genoa",
+          "popupContent": "<b>fastes path to Genoa!</b><br>Double click to see the details!"
+        },
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [17.632182690036974, 40.40221612940531],
+            [12.519242926923734, 41.856478659775874],
+            [8.942184, 44.414165]
+          ]
+        }
+      }, {
+        "type": "Feature",
+        "properties": {
+          "name": "roma",
+          "amenity": "Path to roma",
+          "popupContent": "<b>This is the path to roma!</b><br>Double click to see the details!"
+        },
+        "geometry": {
+          "type": "LineString",
+          "coordinates": [
+            [17.632182690036974, 40.40221612940531],
+            [16.86284396816336, 41.10767086815544],
+            [14.235613478066037, 40.85209446693129],
+            [12.454277110931622, 41.87573990881038]
+          ]
+        }
+      }
+]
