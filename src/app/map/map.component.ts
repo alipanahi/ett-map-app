@@ -11,12 +11,12 @@ import * as L from 'leaflet';
 })
 
 export class MapComponent implements OnInit {
-  
+
   constructor(private layerService: LayersService) { }
 
-  
+
   ngOnInit(): void {
-    
+
     /////////////// pointers dblclick event ///////////////////
     function onEachFeature(feature: any, layer: any) {
       // does this feature have a property named popupContent?
@@ -28,36 +28,33 @@ export class MapComponent implements OnInit {
       });
 
     }
-    function showSidebarWidthText(e:any) {
-      console.log(e);
+    function showSidebarWidthText(e: any) {
+      //console.log(e.latlng.lat);
       document.querySelector(".map_lengend")?.classList.remove("hidden");
       addContentToSidebar(e);
 
     }
-    function addContentToSidebar(e:any) {
-    
+    function addContentToSidebar(e: any) {
       // create sidebar content
       const sidebarTemplate = `
       <article class="sidebar-content">
         <h3 style="position: sticky;top: 0;color: #fff;background: #0052b1;padding: 10px 35px 10px 15px;">
-          ${e.target.feature.properties.name}-<span>${e.latlng}</span>
+          ${e.target.feature.properties.name} - <span>${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}</span>
           </h3>
         <div class="info-content">
           <div class="info-description"><p>${e.target.feature.properties.amenity}</p></div>
         </div>
-      </article>
-  
-      `;
-    
+      </article>`;
+
       const sidebar = document.querySelector(".map_lengend");
       const sidebarContent = document.querySelector(".sidebar-content");
-    
+
       // always remove content before adding new one
       sidebarContent?.remove();
-    
+
       // add content to sidebar
       sidebar?.insertAdjacentHTML("beforeend", sidebarTemplate);
-    
+
     }
     // close when click esc
     document.addEventListener("keydown", function (event) {
@@ -76,7 +73,7 @@ export class MapComponent implements OnInit {
       document.querySelector(".map_lengend")?.classList.add("hidden");
     }
     // async function to get data from json
-    async function fetchData(url:any) {
+    async function fetchData(url: any) {
       try {
         const response = await fetch(url);
         const data = await response.json();
@@ -87,10 +84,10 @@ export class MapComponent implements OnInit {
     }
 
 
-    let map = L.map('map',{fullscreenControl: true}).setView([44.414165, 8.942184], 5);
-    
+    let map = L.map('map', { fullscreenControl: true }).setView([44.414165, 8.942184], 5);
+
     /////////////////// pointers data from json file  ///////////////////
-    let geoData:any;
+    let geoData: any;
     fetchData('/assets/pointers.json')
       .then((data) => {
         geoData = L.geoJSON(data, {
@@ -102,7 +99,7 @@ export class MapComponent implements OnInit {
           },
           onEachFeature: onEachFeature
         }).addTo(map);
-    }); 
+      });
     ///////////////// OpenStreetMap layer /////////////////
     let myLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
@@ -113,22 +110,18 @@ export class MapComponent implements OnInit {
     var wmsLayer = L.tileLayer.wms('https://ows.mundialis.de/osm/service?', {
       layers: 'TOPO-OSM-WMS'
     });
-    ////////////////  earth at night layer       ////////////
-    var earthatnight = L.tileLayer('https://map1.vis.earthdata.nasa.gov/wmts-webmerc/VIIRS_CityLights_2012/default/{time}/{tilematrixset}{maxZoom}/{z}/{y}/{x}.{format}', {
-      attribution: 'Imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System (<a href="https://earthdata.nasa.gov">ESDIS</a>) with funding provided by NASA/HQ.',
-      bounds: [[-85.0511287776, -179.999999975], [85.0511287776, 179.999999975]],
-      minZoom: 1,
-      maxZoom: 8,
-      format: 'jpg',
-      time: '',
-      tilematrixset: 'GoogleMapsCompatible_Level'
-    });
     //layer from www.pcn.minambiente.it
-    var Floods = L.tileLayer.wms('http://wms.pcn.minambiente.it/ogc?',{
-      layers: 'Sicilia_ITH2018'
+    var Floods = L.tileLayer.wms('http://wms.pcn.minambiente.it/ogc?map=/ms_ogc/WMS_v1.3/Vettoriali/Batimetrica.map', {
+      layers: 'EL.BATIMETRICA.'
+    });
+    var predefinito = L.tileLayer.wms('http://wms.pcn.minambiente.it/ogc?map=/ms_ogc/WMS_v1.3/Vettoriali/Bacini_idrografici.map', {
+      layers: 'ID.ACQUEFISICHE.BACINIIDROGRAFICI.PRINCIPALI'
+    });
+    var ecopedologica = L.tileLayer.wms('http://wms.pcn.minambiente.it/ogc?map=/ms_ogc/WMS_v1.3/Vettoriali/Carta_ecopedologica.map', {
+      layers: 'GE.CARTAECOPEDOLOGICA.GENERALE'
     });
     /////////////////////////   points style        /////////////
-    
+
     var stateStyle = {
       "color": "#008f68",
       "weight": 3,
@@ -146,9 +139,10 @@ export class MapComponent implements OnInit {
       ///////////////////////    layers control    ////////////////////
       var baseMaps = {
         "OpenStreetMap": myLayer,
-        "EarthAtNight": earthatnight,
         "wms": wmsLayer,
-        "Floods": Floods
+        "Floods": Floods,
+        "predefinito":predefinito,
+        "Carta ecopedologica d'Italia":ecopedologica
       };
       var overlayMaps = {
         "Paths": geoData,
@@ -156,7 +150,7 @@ export class MapComponent implements OnInit {
       };
       L.control.layers(baseMaps, overlayMaps, { collapsed: false }).addTo(map);
     });
-  
+
 
   }
 
