@@ -18,6 +18,7 @@ export class MapComponent implements OnInit {
   
   private geoData: any;
   private paths:any;
+  private activeLayer:any;
 
   public layerArray:any;
   private layerList:any=fetch('/assets/layers.json')
@@ -26,25 +27,32 @@ export class MapComponent implements OnInit {
   
   private initMap():void{
     this.map = L.map('map', { fullscreenControl: true }).setView([44.414165, 8.942184], 5);
-  }
-  // function to set layer base on user click
-  public setLayer(layer:string='default'): void {console.log(layer);
-    if(layer=='default'){
-      ///////////////// default layer /////////////////
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    this.activeLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         minZoom: 3,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(this.map);
+  }
+  // function to set layer base on user click
+  public setLayer(layer:string='default'): void {
+    this.map.removeLayer(this.activeLayer);
+    if(layer=='default'){
+      ///////////////// default layer /////////////////
+      this.activeLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        minZoom: 3,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      });
     }else{
       
         let selectedLayer = this.layerArray.filter((item:any)=>item.name==layer);
         //console.log(selectedLayer[0].url);
-        L.tileLayer.wms(selectedLayer[0].url, {
+        this.activeLayer = L.tileLayer.wms(selectedLayer[0].url, {
           layers: selectedLayer[0].layers
-        }).addTo(this.map);
+        });
     
     }
+    this.activeLayer.addTo(this.map);
   }
   public showMarkers(e:any,marker:string):void{
   
@@ -154,7 +162,7 @@ export class MapComponent implements OnInit {
         }).addTo(this.map);
         
       });
-    this.setLayer();
+    //this.setLayer();
     /*
     /////////////////////////   points style        /////////////
     
