@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 //import { LayersService } from '../layers.service';
 // @ts-ignore
-import * as L from 'leaflet';
+//import * as L from 'leaflet';
 
 
 @Component({
@@ -13,8 +13,8 @@ import * as L from 'leaflet';
 export class MapComponent implements OnInit {
 
   constructor() { }
-
-  private map:any;
+  @Input() L:any;
+  @Input() map:any;
   
   private geoData: any;
   private paths:any;
@@ -26,8 +26,8 @@ export class MapComponent implements OnInit {
     .then((data) => this.layerArray=data);
   
   private initMap():void{
-    this.map = L.map('map', { fullscreenControl: true }).setView([44.414165, 8.942184], 5);
-    this.activeLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //this.map = this.L.map('map', { fullscreenControl: true }).setView([44.414165, 8.942184], 5);
+    this.activeLayer = this.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         minZoom: 3,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -38,7 +38,7 @@ export class MapComponent implements OnInit {
     this.map.removeLayer(this.activeLayer);
     if(layer=='default'){
       ///////////////// default layer /////////////////
-      this.activeLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      this.activeLayer = this.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         minZoom: 3,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -47,7 +47,7 @@ export class MapComponent implements OnInit {
       
         let selectedLayer = this.layerArray.filter((item:any)=>item.name==layer);
         //console.log(selectedLayer[0].url);
-        this.activeLayer = L.tileLayer.wms(selectedLayer[0].url, {
+        this.activeLayer = this.L.tileLayer.wms(selectedLayer[0].url, {
           layers: selectedLayer[0].layers
         });
     
@@ -144,14 +144,14 @@ export class MapComponent implements OnInit {
     /////////////////// pointers data from json file  ///////////////////
     this.fetchData('/assets/pointers.json')
       .then((data) => {
-        this.geoData = L.geoJSON(data, {
+        this.geoData = this.L.geoJSON(data, {
           onEachFeature: onEachFeature
         }).addTo(this.map);
         
       });
     this.fetchData('/assets/paths.json')
       .then((data) => {
-        this.paths = L.geoJSON(data, {
+        this.paths = this.L.geoJSON(data, {
           style: function (feature: any): any {
             switch (feature.properties.name) {
               case 'genoa': return { color: "#ff0000", weight: 4, opacity: 0.5 };
@@ -176,7 +176,7 @@ export class MapComponent implements OnInit {
     let usaData;
     ////////////////// DATA from Json ////////////
     this.layerService.getStateShapes().subscribe(states => {
-      usaData = L.geoJSON(states, {
+      usaData = this.L.geoJSON(states, {
         style: stateStyle
       }).addTo(this.map);
 
