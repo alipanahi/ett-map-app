@@ -1,18 +1,4 @@
-.map-container {
-    height: calc(100vh - 60px);
-    
-    margin-top: 60px;
-  position: relative;
-}
-  
-.map-frame {
-    border: 2px solid black;
-    height: 100%;
-}
-  
-#map {
-  height: 100%;
-}
+
 .map_lengend{
   border: 1px solid black;
   position: absolute;
@@ -46,25 +32,3 @@
 }
 
 
-.layer_control{
-  border: 2px solid rgba(0,0,0,0.2);
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  padding: 5px;
-  width: auto;
-  max-width: 480px;
-  z-index: 99999;
-  background: #fff;
-  overflow: hidden;
-  height: auto;
-  box-shadow: 0px 0px 22px -11px rgba(66, 68, 90, 1);
-}
-.leaflet-control-layers-list {
-	display: block;
-	position: relative;
-}
-.leaflet-control-layers-base{
-  display: flex;
-  flex-direction: column;
-}

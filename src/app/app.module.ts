@@ -7,13 +7,15 @@ import { MapComponent } from './components/map-wrapper/map/map.component';
 import { HomeComponent } from './components/home/home.component';
 import { LayersService } from './layers.service';
 import { MapWrapperComponent } from './components/map-wrapper/map-wrapper.component';
+import { ControllerComponent } from './components/map-wrapper/controller/controller.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MapComponent,
     HomeComponent,
-    MapWrapperComponent
+    MapWrapperComponent,
+    ControllerComponent
   ],
   imports: [
     BrowserModule,

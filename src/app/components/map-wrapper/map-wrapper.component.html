@@ -1,6 +1,7 @@
 <div class="map-container">
     <div class="map-frame">
         <div id="map"></div>
-        <app-map [L]="leaflet" [map]="map"></app-map>
+        <app-map [L]="leaflet" [map]="map" (layer_obj)="addActiveLayer($event)" (geoData_obj)="addData($event)" (paths_obj)="addPaths($event)"></app-map>
+        <app-controller [L]="leaflet" [map]="map" [layerArray]="layerArray" [activeLayer]="activeLayer" [geoData]="geoData" [paths]="paths"></app-controller>
     </div>
 </div>

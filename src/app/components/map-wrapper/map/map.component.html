@@ -5,34 +5,4 @@
             </button>
           
         </div>
-        <div class="layer_control">
-            <section class="leaflet-control-layers-list">
-                <div class="leaflet-control-layers-base">
-                    <label>
-                        <div>
-                            <input type="radio" (click)="setLayer('default')" class="leaflet-control-layers-selector" name="base-layers" checked="checked"><span> OpenStreetMap</span>
-                        </div>
-                    </label>
-                    <span *ngFor="let layer of layerArray;">
-                        <label>
-                            <div>
-                                <input type="radio" (click)="setLayer(layer.name)" class="leaflet-control-layers-selector" name="base-layers"><span> {{layer.name}}</span>
-                            </div>
-                        </label>
-                    </span>
-                </div>
-                <div class="leaflet-control-layers-separator"></div>
-                <div class="leaflet-control-layers-base">
-                    <label>
-                        <div>
-                            <input type="checkbox" (click)="showMarkers($event,'pointers')" class="leaflet-control-layers-selector" checked=""><span> Pointers</span>
-                        </div>
-                    </label>
-                    <label>
-                        <div>
-                            <input type="checkbox" (click)="showMarkers($event,'paths')" class="leaflet-control-layers-selector" checked=""><span> Paths</span>
-                        </div>
-                    </label>
-                </div>
-            </section>
-        </div>
+        

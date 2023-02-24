@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 //import { LayersService } from '../layers.service';
 // @ts-ignore
 //import * as L from 'leaflet';
@@ -19,57 +19,21 @@ export class MapComponent implements OnInit {
   private geoData: any;
   private paths:any;
   private activeLayer:any;
-
-  public layerArray:any;
-  private layerList:any=fetch('/assets/layers.json')
-    .then((response) => response.json())
-    .then((data) => this.layerArray=data);
+  @Output() layer_obj = new EventEmitter<any>();
+  @Output() geoData_obj = new EventEmitter<any>();
+  @Output() paths_obj = new EventEmitter<any>();
   
-  private initMap():void{
+  
+  private initBaseLayer():void{
     //this.map = this.L.map('map', { fullscreenControl: true }).setView([44.414165, 8.942184], 5);
     this.activeLayer = this.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         minZoom: 3,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(this.map);
+      this.layer_obj.emit(this.activeLayer);
   }
-  // function to set layer base on user click
-  public setLayer(layer:string='default'): void {
-    this.map.removeLayer(this.activeLayer);
-    if(layer=='default'){
-      ///////////////// default layer /////////////////
-      this.activeLayer = this.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        minZoom: 3,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      });
-    }else{
-      
-        let selectedLayer = this.layerArray.filter((item:any)=>item.name==layer);
-        //console.log(selectedLayer[0].url);
-        this.activeLayer = this.L.tileLayer.wms(selectedLayer[0].url, {
-          layers: selectedLayer[0].layers
-        });
-    
-    }
-    this.activeLayer.addTo(this.map);
-  }
-  public showMarkers(e:any,marker:string):void{
   
-    if(e.target.checked){
-      if(marker=='pointers'){
-        this.geoData.addTo(this.map);
-      }else if(marker=='paths'){
-        this.paths.addTo(this.map);
-      }
-    }else{
-      if(marker=='pointers'){
-        this.map.removeLayer(this.geoData);
-      }else if(marker=='paths'){
-        this.map.removeLayer(this.paths);
-      }
-    }
-  }
   // async function to get data from json
   async fetchData(url: any) {
     try {
@@ -83,7 +47,7 @@ export class MapComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.initMap();
+    this.initBaseLayer();
     
     /////////////// pointers dblclick event ///////////////////
     function onEachFeature(feature: any, layer: any) {
@@ -147,6 +111,7 @@ export class MapComponent implements OnInit {
         this.geoData = this.L.geoJSON(data, {
           onEachFeature: onEachFeature
         }).addTo(this.map);
+        this.geoData_obj.emit(this.geoData);
         
       });
     this.fetchData('/assets/paths.json')
@@ -160,7 +125,7 @@ export class MapComponent implements OnInit {
           },
           onEachFeature: onEachFeature
         }).addTo(this.map);
-        
+        this.paths_obj.emit(this.paths);
       });
     //this.setLayer();
     /*
