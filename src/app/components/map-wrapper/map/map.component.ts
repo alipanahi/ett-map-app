@@ -19,19 +19,19 @@ export class MapComponent implements OnInit {
   private geoData: any;
   private paths:any;
   private activeLayer:any;
-  @Output() layer_obj = new EventEmitter<any>();
+  //@Output() layer_obj = new EventEmitter<any>();
   @Output() geoData_obj = new EventEmitter<any>();
   @Output() paths_obj = new EventEmitter<any>();
   
   
   private initBaseLayer():void{
     //this.map = this.L.map('map', { fullscreenControl: true }).setView([44.414165, 8.942184], 5);
-    this.activeLayer = this.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    this.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         minZoom: 3,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(this.map);
-      this.layer_obj.emit(this.activeLayer);
+      //this.layer_obj.emit(this.activeLayer);
   }
   
   // async function to get data from json

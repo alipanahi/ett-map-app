@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-controller',
@@ -6,45 +6,40 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./controller.component.css']
 })
 export class ControllerComponent {
-  @Input() layerArray:any;
-  @Input() map:any;
-  @Input() L:any;
+  @Input() layerArray: any;
+  @Input() map: any;
+  @Input() L: any;
   @Input() geoData: any;
-  @Input() paths:any;
-  @Input() activeLayer:any;
+  @Input() paths: any;
+  @Output() selectedLayer = new EventEmitter<any>();
+  private activeLayer: any;
   // function to set layer base on user click
-  public setLayer(layer:string='default'): void {
-    this.map.removeLayer(this.activeLayer);
-    if(layer=='default'){
-      ///////////////// default layer /////////////////
-      this.activeLayer = this.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        minZoom: 3,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+  public setLayer(layer: string = 'default'): void {
+    //this.map.removeLayer(this.activeLayer);
+    if (layer == 'default') {
+      this.activeLayer = layer;
+    } else {
+
+      let selected = this.layerArray.filter((item: any) => item.name == layer);
+      //console.log(selectedLayer[0].url);
+      this.activeLayer = this.L.tileLayer.wms(selected[0].url, {
+        layers: selected[0].layers
       });
-    }else{
-      
-        let selectedLayer = this.layerArray.filter((item:any)=>item.name==layer);
-        //console.log(selectedLayer[0].url);
-        this.activeLayer = this.L.tileLayer.wms(selectedLayer[0].url, {
-          layers: selectedLayer[0].layers
-        });
-    
     }
-    this.activeLayer.addTo(this.map);
+    this.selectedLayer.emit(this.activeLayer);
   }
-  public showMarkers(e:any,marker:string):void{
-  
-    if(e.target.checked){
-      if(marker=='pointers'){
+  public showMarkers(e: any, marker: string): void {
+
+    if (e.target.checked) {
+      if (marker == 'pointers') {
         this.geoData.addTo(this.map);
-      }else if(marker=='paths'){
+      } else if (marker == 'paths') {
         this.paths.addTo(this.map);
       }
-    }else{
-      if(marker=='pointers'){
+    } else {
+      if (marker == 'pointers') {
         this.map.removeLayer(this.geoData);
-      }else if(marker=='paths'){
+      } else if (marker == 'paths') {
         this.map.removeLayer(this.paths);
       }
     }
