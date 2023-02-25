@@ -1,4 +1,5 @@
-import { Component, OnInit,Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { LayersService } from '../../layers.service';
 // @ts-ignore
 //import * as L from 'leaflet';
 
@@ -7,17 +8,15 @@ import { Component, OnInit,Output, EventEmitter } from '@angular/core';
   templateUrl: './map-wrapper.component.html',
   styleUrls: ['./map-wrapper.component.css']
 })
-export class MapWrapperComponent {
+export class MapWrapperComponent implements OnInit {
+  constructor(private layerService: LayersService) { }
+
   public addRemoveMarker:any;
   public layerGroup:any;
   public selectedLayer:any;
   public layerArray:any;
-  private layerList:any=fetch('/assets/layers.json')
-    .then((response) => response.json())
-    .then((data) => {
-      this.layerArray = data;
-      //data.map((item:any)=>this.layerGroup.addLayer(item));
-    });
+  public baselayer:any;
+
   addSelectedLayer(layer:any):void{
     this.selectedLayer = layer;
   }
@@ -25,6 +24,15 @@ export class MapWrapperComponent {
   addRemoveData(marker:any):void{
     this.addRemoveMarker = marker;
   }
-  
+  ngOnInit(): void {
+    this.layerService.getBaselayer().subscribe(layer => {
+      this.baselayer = layer;
+    });
+
+    this.layerService.getLayers().subscribe(layers => {
+      this.layerArray = layers;
+    });
+    
+  }
   
 }

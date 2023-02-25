@@ -1,0 +1,5 @@
+{
+    "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    "attribution" : "http://www.openstreetmap.org/copyright",
+    "name" : "OpenStreetMap"
+}

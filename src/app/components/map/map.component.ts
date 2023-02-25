@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter,OnChanges,SimpleChanges } from '@angular/core';
-//import { LayersService } from '../layers.service';
+import { LayersService } from '../../layers.service';
 // @ts-ignore
 import * as L from 'leaflet';
 
@@ -12,7 +12,7 @@ import * as L from 'leaflet';
 
 export class MapComponent implements OnInit,OnChanges {
 
-  constructor() { }
+  constructor(private layerService: LayersService) { }
   private map:any;
   private layerGroup:any;
   private geoData: any;
@@ -20,8 +20,9 @@ export class MapComponent implements OnInit,OnChanges {
   //@Output() layer_obj = new EventEmitter<any>();
   @Input() selectedLayer:any;
   @Input() addMarker:any;
+  @Input() baselayer:any;
   
-  private initBaseLayer():void{
+  private initBaseLayer():void{console.log(this.baselayer);
     this.map = L.map('map', { fullscreenControl: true }).setView([44.414165, 8.942184], 5);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -30,17 +31,6 @@ export class MapComponent implements OnInit,OnChanges {
       }).addTo(this.map);
       //this.layer_obj.emit(this.activeLayer);
       this.layerGroup = L.layerGroup().addTo(this.map);
-  }
-  
-  // async function to get data from json
-  async fetchData(url: any) {
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-      return data;
-    } catch (err) {
-      console.error(err);
-    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -83,7 +73,6 @@ export class MapComponent implements OnInit,OnChanges {
   }
   ngOnInit(): void {
     this.initBaseLayer();
-    
     /////////////// pointers dblclick event ///////////////////
     function onEachFeature(feature: any, layer: any) {
       // does this feature have a property named popupContent?
@@ -139,50 +128,24 @@ export class MapComponent implements OnInit,OnChanges {
       // remove class active-sidebar
       document.querySelector(".map_lengend")?.classList.add("hidden");
     }
-    //this.map.on("click", addLayer);
     /////////////////// pointers data from json file  ///////////////////
-    this.fetchData('/assets/pointers.json')
-      .then((data) => {
-        this.geoData = L.geoJSON(data, {
-          onEachFeature: onEachFeature
-        }).addTo(this.map);
-        
-      });
-    this.fetchData('/assets/paths.json')
-      .then((data) => {
-        this.paths = L.geoJSON(data, {
-          style: function (feature: any): any {
-            switch (feature.properties.name) {
-              case 'genoa': return { color: "#ff0000", weight: 4, opacity: 0.5 };
-              case 'roma': return { color: "#0000ff", weight: 4 };
-            }
-          },
-          onEachFeature: onEachFeature
-        }).addTo(this.map);
-      });
-    //this.setLayer();
-    /*
-    /////////////////////////   points style        /////////////
-    
-    var stateStyle = {
-      "color": "#008f68",
-      "weight": 3,
-      "opacity": 0.5,
-      "fillOpacity": 0.8,
-      "fillColor": '#6DB65B'
-    };
-    let usaData;
-    ////////////////// DATA from Json ////////////
-    this.layerService.getStateShapes().subscribe(states => {
-      usaData = L.geoJSON(states, {
-        style: stateStyle
+    this.layerService.getPointers().subscribe(points => {
+      this.geoData = L.geoJSON(points, {
+        onEachFeature: onEachFeature
       }).addTo(this.map);
-
       
     });
-    */
+    this.layerService.getPaths().subscribe(path => {
+      this.paths = L.geoJSON(path, {
+        style: function (feature: any): any {
+          switch (feature.properties.name) {
+            case 'genoa': return { color: "#ff0000", weight: 4, opacity: 0.5 };
+            case 'roma': return { color: "#0000ff", weight: 4 };
+          }
+        },
+        onEachFeature: onEachFeature
+      }).addTo(this.map);
+    });
 
   }
-
-
 }
