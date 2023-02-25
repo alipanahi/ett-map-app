@@ -1,7 +1,7 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter,OnChanges,SimpleChanges } from '@angular/core';
 //import { LayersService } from '../layers.service';
 // @ts-ignore
-//import * as L from 'leaflet';
+import * as L from 'leaflet';
 
 
 @Component({
@@ -10,28 +10,26 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./map.component.css']
 })
 
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit,OnChanges {
 
   constructor() { }
-  @Input() L:any;
-  @Input() map:any;
-  
+  private map:any;
+  private layerGroup:any;
   private geoData: any;
   private paths:any;
-  private activeLayer:any;
   //@Output() layer_obj = new EventEmitter<any>();
-  @Output() geoData_obj = new EventEmitter<any>();
-  @Output() paths_obj = new EventEmitter<any>();
-  
+  @Input() selectedLayer:any;
+  @Input() addMarker:any;
   
   private initBaseLayer():void{
-    //this.map = this.L.map('map', { fullscreenControl: true }).setView([44.414165, 8.942184], 5);
-    this.L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    this.map = L.map('map', { fullscreenControl: true }).setView([44.414165, 8.942184], 5);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         minZoom: 3,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(this.map);
       //this.layer_obj.emit(this.activeLayer);
+      this.layerGroup = L.layerGroup().addTo(this.map);
   }
   
   // async function to get data from json
@@ -45,7 +43,44 @@ export class MapComponent implements OnInit {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if(changes['selectedLayer']){
 
+      if (changes['selectedLayer'].currentValue!==changes['selectedLayer'].previousValue) {
+        
+          this.layerGroup.clearLayers();
+          if(this.selectedLayer!=='default'){
+          
+          let activeLayer = L.tileLayer.wms(this.selectedLayer[0].url, {
+            layers: this.selectedLayer[0].layers
+          });
+          this.layerGroup.addLayer(activeLayer);
+        }
+      }
+    }
+    if(changes['addMarker']){
+
+      if (changes['addMarker'].currentValue!==changes['addMarker'].previousValue) {
+        //show or hide data
+        if(this.addMarker.event==true){
+  
+          if (this.addMarker.marker == 'pointers') {
+            this.geoData.addTo(this.map);
+          } else if (this.addMarker.marker == 'paths') {
+            this.paths.addTo(this.map);
+          }
+        } else{
+  
+          if (this.addMarker.marker == 'pointers') {
+            this.map.removeLayer(this.geoData);
+          } else if (this.addMarker.marker == 'paths') {
+            this.map.removeLayer(this.paths);
+          }
+        }
+      }
+    }
+
+  }
   ngOnInit(): void {
     this.initBaseLayer();
     
@@ -108,15 +143,14 @@ export class MapComponent implements OnInit {
     /////////////////// pointers data from json file  ///////////////////
     this.fetchData('/assets/pointers.json')
       .then((data) => {
-        this.geoData = this.L.geoJSON(data, {
+        this.geoData = L.geoJSON(data, {
           onEachFeature: onEachFeature
         }).addTo(this.map);
-        this.geoData_obj.emit(this.geoData);
         
       });
     this.fetchData('/assets/paths.json')
       .then((data) => {
-        this.paths = this.L.geoJSON(data, {
+        this.paths = L.geoJSON(data, {
           style: function (feature: any): any {
             switch (feature.properties.name) {
               case 'genoa': return { color: "#ff0000", weight: 4, opacity: 0.5 };
@@ -125,7 +159,6 @@ export class MapComponent implements OnInit {
           },
           onEachFeature: onEachFeature
         }).addTo(this.map);
-        this.paths_obj.emit(this.paths);
       });
     //this.setLayer();
     /*
@@ -141,7 +174,7 @@ export class MapComponent implements OnInit {
     let usaData;
     ////////////////// DATA from Json ////////////
     this.layerService.getStateShapes().subscribe(states => {
-      usaData = this.L.geoJSON(states, {
+      usaData = L.geoJSON(states, {
         style: stateStyle
       }).addTo(this.map);
 

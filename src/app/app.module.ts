@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MapComponent } from './components/map-wrapper/map/map.component';
+import { MapComponent } from './components/map/map.component';
 import { HomeComponent } from './components/home/home.component';
 import { LayersService } from './layers.service';
 import { MapWrapperComponent } from './components/map-wrapper/map-wrapper.component';
