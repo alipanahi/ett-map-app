@@ -1,7 +1,7 @@
 .layer_control{
-    border: 2px solid rgba(0,0,0,0.2);
+    border: 2px solid blue;
     position: absolute;
-    bottom: 5px;
+    top: 5px;
     right: 5px;
     padding: 5px;
     width: auto;
@@ -11,12 +11,26 @@
     overflow: hidden;
     height: auto;
     box-shadow: 0px 0px 22px -11px rgba(66, 68, 90, 1);
-  }
-  .leaflet-control-layers-list {
-      display: block;
-      position: relative;
-  }
-  .leaflet-control-layers-base{
-    display: flex;
-    flex-direction: column;
-  }
+}
+.map-legend {
+    display: block;
+    position: relative;
+}
+.layers, .pointers{
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #aad3df;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+}
+.pointers{
+  margin-bottom: 0;
+}
+.title{
+  font-weight: bold;
+  margin-bottom: 0;
+  background-color: blue;
+  color: #fff;
+  text-align: center;
+}

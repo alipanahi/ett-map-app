@@ -1,6 +1,7 @@
 <div class="layer_control">
-    <section class="leaflet-control-layers-list">
-        <div class="leaflet-control-layers-base">
+    <section class="map-legend">
+        <p class="title">Layers</p>
+        <div class="layers">
             <label>
                 <div>
                     <input type="radio" (click)="setLayer('default')" class="leaflet-control-layers-selector" name="base-layers" checked="checked"><span> OpenStreetMap</span>
@@ -14,8 +15,8 @@
                 </label>
             </span>
         </div>
-        <div class="leaflet-control-layers-separator"></div>
-        <div class="leaflet-control-layers-base">
+        <p class="title">Data</p>
+        <div class="pointers">
             <label>
                 <div>
                     <input type="checkbox" (click)="showMarkers($event,'pointers')" class="leaflet-control-layers-selector" checked=""><span> Pointers</span>

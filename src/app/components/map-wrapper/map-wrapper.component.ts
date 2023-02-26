@@ -25,10 +25,11 @@ export class MapWrapperComponent implements OnInit {
     this.addRemoveMarker = marker;
   }
   ngOnInit(): void {
+    //fetch baselayer inof from json file
     this.layerService.getBaselayer().subscribe(layer => {
       this.baselayer = layer;
     });
-
+    //fetch data from json file
     this.layerService.getLayers().subscribe(layers => {
       this.layerArray = layers;
     });

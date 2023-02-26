@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter,OnChanges,SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { LayersService } from '../../layers.service';
 // @ts-ignore
 import * as L from 'leaflet';
@@ -10,37 +10,41 @@ import * as L from 'leaflet';
   styleUrls: ['./map.component.css']
 })
 
-export class MapComponent implements OnInit,OnChanges {
+export class MapComponent implements OnInit, OnChanges {
 
   constructor(private layerService: LayersService) { }
-  private map:any;
-  private layerGroup:any;
+  private map: any;
+  private layerGroup: any;
   private geoData: any;
-  private paths:any;
-  //@Output() layer_obj = new EventEmitter<any>();
-  @Input() selectedLayer:any;
-  @Input() addMarker:any;
-  @Input() baselayer:any;
-  
-  private initBaseLayer():void{console.log(this.baselayer);
+  private paths: any;
+
+  @Input() selectedLayer: any;
+  @Input() addMarker: any;
+  @Input() baselayer: any;
+
+  private initMap(): void {
+
     this.map = L.map('map', { fullscreenControl: true }).setView([44.414165, 8.942184], 5);
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        minZoom: 3,
-        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      }).addTo(this.map);
-      //this.layer_obj.emit(this.activeLayer);
-      this.layerGroup = L.layerGroup().addTo(this.map);
+
+    this.layerGroup = L.layerGroup().addTo(this.map);
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(changes['selectedLayer']){
+    if (changes['baselayer']) {
+      if (changes['baselayer'].currentValue !== changes['baselayer'].previousValue) {
+        //console.log('here',this.baselayer)
+        L.tileLayer(this.baselayer.url, {
+          maxZoom: 19,
+          minZoom: 3,
+          attribution: `&copy; <a href="${this.baselayer.attribution}">${this.baselayer.name}</a>`
+        }).addTo(this.map);
+      }
+    }
+    if (changes['selectedLayer']) {
+      if (changes['selectedLayer'].currentValue !== changes['selectedLayer'].previousValue) {
+        this.layerGroup.clearLayers();
+        if (this.selectedLayer !== 'default') {
 
-      if (changes['selectedLayer'].currentValue!==changes['selectedLayer'].previousValue) {
-        
-          this.layerGroup.clearLayers();
-          if(this.selectedLayer!=='default'){
-          
           let activeLayer = L.tileLayer.wms(this.selectedLayer[0].url, {
             layers: this.selectedLayer[0].layers
           });
@@ -48,19 +52,16 @@ export class MapComponent implements OnInit,OnChanges {
         }
       }
     }
-    if(changes['addMarker']){
-
-      if (changes['addMarker'].currentValue!==changes['addMarker'].previousValue) {
+    if (changes['addMarker']) {
+      if (changes['addMarker'].currentValue !== changes['addMarker'].previousValue) {
         //show or hide data
-        if(this.addMarker.event==true){
-  
+        if (this.addMarker.event == true) {
           if (this.addMarker.marker == 'pointers') {
             this.geoData.addTo(this.map);
           } else if (this.addMarker.marker == 'paths') {
             this.paths.addTo(this.map);
           }
-        } else{
-  
+        } else {
           if (this.addMarker.marker == 'pointers') {
             this.map.removeLayer(this.geoData);
           } else if (this.addMarker.marker == 'paths') {
@@ -72,7 +73,7 @@ export class MapComponent implements OnInit,OnChanges {
 
   }
   ngOnInit(): void {
-    this.initBaseLayer();
+    this.initMap();
     /////////////// pointers dblclick event ///////////////////
     function onEachFeature(feature: any, layer: any) {
       // does this feature have a property named popupContent?
@@ -88,7 +89,7 @@ export class MapComponent implements OnInit,OnChanges {
       //console.log(e.latlng.lat);
       document.querySelector(".map_lengend")?.classList.remove("hidden");
       addContentToSidebar(e);
-  
+
     }
     function addContentToSidebar(e: any) {
       // create sidebar content
@@ -101,16 +102,16 @@ export class MapComponent implements OnInit,OnChanges {
           <div class="info-description"><p>${e.target.feature.properties.amenity}</p></div>
         </div>
       </article>`;
-  
+
       const sidebar = document.querySelector(".map_lengend");
       const sidebarContent = document.querySelector(".sidebar-content");
-  
+
       // always remove content before adding new one
       sidebarContent?.remove();
-  
+
       // add content to sidebar
       sidebar?.insertAdjacentHTML("beforeend", sidebarTemplate);
-  
+
     }
     // close when click esc
     document.addEventListener("keydown", function (event) {
@@ -133,7 +134,7 @@ export class MapComponent implements OnInit,OnChanges {
       this.geoData = L.geoJSON(points, {
         onEachFeature: onEachFeature
       }).addTo(this.map);
-      
+
     });
     this.layerService.getPaths().subscribe(path => {
       this.paths = L.geoJSON(path, {
