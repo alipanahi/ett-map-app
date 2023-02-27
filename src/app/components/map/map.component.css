@@ -1,4 +1,13 @@
 
+
+.map-frame {
+  border: 2px solid black;
+  height: 100%;
+  
+}
+#map {
+  height: 100%;
+}
 .map_lengend{
   border: 1px solid black;
   position: absolute;

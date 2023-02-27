@@ -1,22 +1,43 @@
 [
     {
         "url": "https://ows.mundialis.de/osm/service?",
-        "layers": "TOPO-OSM-WMS",
+        "options":{
+
+            "layers": "TOPO-OSM-WMS"
+        },
         "name":"wmsLayer"
     },
     {
         "url": "http://wms.pcn.minambiente.it/ogc?map=/ms_ogc/WMS_v1.3/Vettoriali/Batimetrica.map",
-        "layers": "EL.BATIMETRICA.",
+        "options":{
+
+            "layers": "EL.BATIMETRICA."
+        },
         "name":"Floods"
     },
     {
-        "url": "http://wms.pcn.minambiente.it/ogc?map=/ms_ogc/WMS_v1.3/Vettoriali/Bacini_idrografici.map",
-        "layers": "ID.ACQUEFISICHE.BACINIIDROGRAFICI.PRINCIPALI",
-        "name":"predefinito"
+        "url": "http://wms.pcn.minambiente.it/ogc?map=/ms_ogc/WMS_v1.3/Vettoriali/Carta_ecopedologica.map",
+        "options":{
+
+            "layers": "GE.CARTAECOPEDOLOGICA.GENERALE"
+        },
+        "name":"ecopedologica"
     },
     {
-        "url": "http://wms.pcn.minambiente.it/ogc?map=/ms_ogc/WMS_v1.3/Vettoriali/Carta_ecopedologica.map",
-        "layers": "GE.CARTAECOPEDOLOGICA.GENERALE",
-        "name":"ecopedologica"
+        "url": "http://188.166.63.249/geowebcache/service/wms?",
+        "options":{
+
+            "layers": "Temperature_height_above_ground_SON",
+            "format": "image/png",
+            "transparent": true,
+            "tiled": true,
+            "styles": "boxfill/rainbow",
+            "colorscalerange": "263.15,313.15",
+            "unit": "K",
+            "logscale": false,
+            "abovemaxcolor": "extend",
+            "belowmincolor": "extend"
+        },
+        "name":"Temperatura a 2 m (3Km)"
     }
 ]

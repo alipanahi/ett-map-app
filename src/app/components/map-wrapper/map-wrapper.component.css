@@ -1,16 +1,9 @@
 .map-container {
-    height: calc(100vh - 60px);
-    
-    margin-top: 60px;
+  height: calc(100vh - 60px);
+  
+  margin-top: 60px;
   position: relative;
 }
   
-.map-frame {
-    border: 2px solid black;
-    height: 100%;
-}
-  
-#map {
-  height: 100%;
-}
+
 

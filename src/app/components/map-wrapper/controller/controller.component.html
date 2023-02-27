@@ -7,6 +7,7 @@
                     <input type="radio" (click)="setLayer('default')" class="leaflet-control-layers-selector" name="base-layers" checked="checked"><span> OpenStreetMap</span>
                 </div>
             </label>
+            
             <span *ngFor="let layer of layerArray;">
                 <label>
                     <div>
