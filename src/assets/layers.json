@@ -26,7 +26,6 @@
     {
         "url": "http://188.166.63.249/geowebcache/service/wms?",
         "options":{
-
             "layers": "Temperature_height_above_ground_SON",
             "format": "image/png",
             "transparent": true,

@@ -44,7 +44,10 @@ export class MapComponent implements OnInit, OnChanges {
       if (changes['selectedLayer'].currentValue !== changes['selectedLayer'].previousValue) {
         this.layerGroup.clearLayers();
         if (this.selectedLayer !== 'default') {
-            let activeLayer = L.tileLayer.wms(this.selectedLayer[0].url, this.selectedLayer[0].options);
+          let now = new Date();now.setHours(12,0,0,0);
+          let nowString = now.toISOString();
+          let options = this.selectedLayer[0].options;
+            let activeLayer = L.tileLayer.wms(this.selectedLayer[0].url,{...options,time:nowString});
             this.layerGroup.addLayer(activeLayer);
         }
       }
