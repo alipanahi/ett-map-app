@@ -8,6 +8,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LayersService } from './layers.service';
 import { MapWrapperComponent } from './components/map-wrapper/map-wrapper.component';
 import { ControllerComponent } from './components/map-wrapper/controller/controller.component';
+import { DisplayerComponent } from './components/displayer/displayer.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ControllerComponent } from './components/map-wrapper/controller/control
     MapComponent,
     HomeComponent,
     MapWrapperComponent,
-    ControllerComponent
+    ControllerComponent,
+    DisplayerComponent
   ],
   imports: [
     BrowserModule,

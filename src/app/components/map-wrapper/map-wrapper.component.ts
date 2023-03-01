@@ -16,6 +16,7 @@ export class MapWrapperComponent implements OnInit {
   public selectedLayer:any;
   public layerArray:any;
   public baselayer:any;
+  public configuration:any;
 
   addSelectedLayer(layer:any):void{
     this.selectedLayer = layer;
@@ -23,6 +24,10 @@ export class MapWrapperComponent implements OnInit {
   
   addRemoveData(marker:any):void{
     this.addRemoveMarker = marker;
+  }
+  setConfiguration(config:any):void{
+    this.configuration = config;
+    
   }
   ngOnInit(): void {
     //fetch baselayer inof from json file

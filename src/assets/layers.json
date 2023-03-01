@@ -25,6 +25,8 @@
     },
     {
         "url": "http://188.166.63.249/geowebcache/service/wms?",
+        "getFeatureInfoUrl": "http://188.166.63.249/thredds/wms/grib/SINDBAD-SON?",
+        "getFeatureLayers": "Temperature_height_above_ground",
         "options":{
             "layers": "Temperature_height_above_ground_SON",
             "format": "image/png",

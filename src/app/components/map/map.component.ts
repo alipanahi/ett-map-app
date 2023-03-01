@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, Output,EventEmitter } from '@angular/core';
 import { LayersService } from '../../layers.service';
 // @ts-ignore
 import * as L from 'leaflet';
@@ -21,12 +21,23 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() selectedLayer: any;
   @Input() addMarker: any;
   @Input() baselayer: any;
-
+  @Output() config = new EventEmitter<any>();
   private initMap(): void {
 
     this.map = L.map('map', { fullscreenControl: true }).setView([44.414165, 8.942184], 5);
 
     this.layerGroup = L.layerGroup().addTo(this.map);
+
+    this.map.on('click', (point: any) =>{
+      let configuration = {
+        point,
+        bounds: this.map.getBounds(),
+        size: this.map.getSize(),
+        crs: this.map.options.crs,
+        configuration: this.selectedLayer[0],
+      }
+      this.config.emit(configuration);
+    })
   }
 
   ngOnChanges(changes: SimpleChanges) {
