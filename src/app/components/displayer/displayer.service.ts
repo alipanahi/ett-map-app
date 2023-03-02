@@ -15,7 +15,7 @@ export class DisplayerService {
     
     return this.http.get<any>(url, {params: options, responseType: 'text' as 'json'});
   }
-  public setOptions(info: any): any{
+  public setOptions(info: any): any{console.log(info);
     const nw = info.crs.project(info.bounds.getNorthWest());
     const se = info.crs.project(info.bounds.getSouthEast());
     const bbox = [nw.x, se.y, se.x, nw.y].join(',');
@@ -23,8 +23,8 @@ export class DisplayerService {
     (info);
 
     const options = {
-      width: 256,
-      height: 256,
+      width: 512,
+      height: 512,
       bbox,
       service: 'WMS',
       version: '1.1.1',
@@ -33,8 +33,8 @@ export class DisplayerService {
       format: info.configuration.options.format,
       transparent: info.configuration.options.transparent,
       request: 'GetFeatureInfo',
-      I: Math.round(info.point.containerPoint.x),
-      J: Math.round(info.point.containerPoint.y),
+      X: Math.round(info.point.containerPoint.x),
+      Y: Math.round(info.point.containerPoint.y),
       INFO_FORMAT: 'text/xml',
       srs: info.crs.code,
       tiled: true,

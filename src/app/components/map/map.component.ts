@@ -24,7 +24,7 @@ export class MapComponent implements OnInit, OnChanges {
   @Output() config = new EventEmitter<any>();
   private initMap(): void {
 
-    this.map = L.map('map', { fullscreenControl: true }).setView([44.414165, 8.942184], 5);
+    this.map = L.map('map').setView([44.414165, 8.942184], 7);
 
     this.layerGroup = L.layerGroup().addTo(this.map);
 

@@ -31,13 +31,16 @@
   cursor: pointer;
   position: absolute;
   right: 10px;
+  top:10px;
   border: none;
   margin: 0;
   z-index: 1;
   background: none;
   color: #fff;
   font-size: 30px;
-  padding: 10px;
+}
+.leaflet-grab {
+  cursor: pointer;
 }
 
 
