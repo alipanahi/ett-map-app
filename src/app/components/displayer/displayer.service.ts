@@ -19,24 +19,24 @@ export class DisplayerService {
     const nw = info.crs.project(info.bounds.getNorthWest());
     const se = info.crs.project(info.bounds.getSouthEast());
     const bbox = [nw.x, se.y, se.x, nw.y].join(',');
-
+    
     (info);
 
     const options = {
-      width: 512,
-      height: 512,
-      bbox,
+      width: Math.round(info.point.containerPoint.x)+256,
+      height: Math.round(info.point.containerPoint.y)+256,
+      bbox:'626172.1357121639,5009377.085697314,1252344.2714243277,5635549.221409476',
       service: 'WMS',
-      version: '1.1.1',
+      version: '1.3.0',
       layers: info.configuration.getFeatureLayers,
       query_layers: info.configuration.getFeatureLayers ,
       format: info.configuration.options.format,
       transparent: info.configuration.options.transparent,
       request: 'GetFeatureInfo',
-      X: Math.round(info.point.containerPoint.x),
-      Y: Math.round(info.point.containerPoint.y),
+      I: Math.round(info.point.containerPoint.x),
+      J: Math.round(info.point.containerPoint.y),
       INFO_FORMAT: 'text/xml',
-      srs: info.crs.code,
+      CRS: info.crs.code,
       tiled: true,
       url: info.configuration.getFeatureInfoUrl
     };

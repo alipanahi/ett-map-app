@@ -24,7 +24,7 @@ export class MapComponent implements OnInit, OnChanges {
   @Output() config = new EventEmitter<any>();
   private initMap(): void {
 
-    this.map = L.map('map').setView([44.414165, 8.942184], 7);
+    this.map = L.map('map').setView([44.414165, 8.942184], 6);
 
     this.layerGroup = L.layerGroup().addTo(this.map);
 
@@ -37,6 +37,7 @@ export class MapComponent implements OnInit, OnChanges {
         configuration: this.selectedLayer[0],
       }
       this.config.emit(configuration);
+      //console.log('here',configuration.bounds.getNorthWest());
     })
   }
 
