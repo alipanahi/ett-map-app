@@ -1,16 +1,16 @@
 .displayer{
-    border: 1px solid black;
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
-    padding: 5px;
-    width: 100%;
-    max-width: 480px;
-    z-index: 99999;
-    background: #fff;
-    overflow: hidden;
-    height: auto;
-    box-shadow: 0px 0px 22px -11px rgba(66, 68, 90, 1);
+  border: 2px solid blue;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  padding: 5px;
+  width: auto;
+  max-width: 480px;
+  z-index: 99999;
+  background: #fff;
+  overflow: hidden;
+  height: auto;
+  box-shadow: 0px 0px 22px -11px rgba(66, 68, 90, 1);
   }
   
   .hidden {
@@ -29,6 +29,25 @@
     color: red;
     font-size: 15px;
   }
-  
+  .map-legend {
+    display: block;
+    position: relative;
+}
+.layers{
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #aad3df;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+}
+
+.title{
+  font-weight: bold;
+  margin-bottom: 0;
+  background-color: blue;
+  color: #fff;
+  text-align: center;
+}
   
   

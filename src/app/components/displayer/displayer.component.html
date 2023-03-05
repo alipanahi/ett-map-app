@@ -1,8 +1,19 @@
 <div class="displayer hidden">
-    <button aria-label="close sidebar" type="button" class="close-btn">
-      X
-    </button>
-    Temperature: {{temperature}} °C
-    <br>
-    Layer Name: {{layerName}}
+  <button aria-label="close sidebar" type="button" class="close-btn">
+    X
+  </button>
+  <section class="map-legend">
+      <p class="title">Temperature</p>
+      <div class="layers">
+          <label>
+            {{temperature}} °C
+          </label>
+      </div>
+      <p class="title">Layer Name</p>
+      <div class="layers">
+          <label>
+            {{layerName}}
+          </label>
+      </div>
+  </section>
 </div>
