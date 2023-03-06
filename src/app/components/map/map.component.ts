@@ -37,7 +37,7 @@ export class MapComponent implements OnInit, OnChanges {
         configuration: this.selectedLayer[0],
       }
       this.config.emit(configuration);
-      //console.log('here',configuration.bounds.getNorthWest());
+      console.log('here',configuration);
     })
   }
 

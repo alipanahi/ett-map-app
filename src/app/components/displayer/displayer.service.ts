@@ -23,9 +23,9 @@ export class DisplayerService {
     (info);
 
     const options = {
-      width: Math.round(info.point.containerPoint.x)+256,
-      height: Math.round(info.point.containerPoint.y)+256,
-      bbox:'626172.1357121639,5009377.085697314,1252344.2714243277,5635549.221409476',
+      width: info.size.x,
+      height: info.size.y,
+      bbox,//:'626172.1357121639,5009377.085697314,1252344.2714243277,5635549.221409476',
       service: 'WMS',
       version: '1.3.0',
       layers: info.configuration.getFeatureLayers,
