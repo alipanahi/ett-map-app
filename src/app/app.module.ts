@@ -9,7 +9,7 @@ import { LayersService } from './layers.service';
 import { MapWrapperComponent } from './components/map-wrapper/map-wrapper.component';
 import { ControllerComponent } from './components/map-wrapper/controller/controller.component';
 import { DisplayerComponent } from './components/displayer/displayer.component';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +22,8 @@ import { DisplayerComponent } from './components/displayer/displayer.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   providers: [
     LayersService

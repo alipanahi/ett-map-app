@@ -1,12 +1,12 @@
-<div class="displayer hidden">
-  <button aria-label="close sidebar" type="button" class="close-btn">
+<div class="displayer" [@displayerSlider]="isOpen ? 'open' : 'closed'">
+  <button aria-label="close sidebar" (click)="toggle()" type="button" class="close-btn">
     X
   </button>
   <section class="map-legend">
       <p class="title">Temperature</p>
       <div class="layers">
-          <label>
-            {{temperature}} °C
+          <label class="degree">
+            {{temperature}} <span [ngClass]="temperature>0 ? 'hot' : 'cold'">°C</span>
           </label>
       </div>
       <p class="title">Layer Name</p>

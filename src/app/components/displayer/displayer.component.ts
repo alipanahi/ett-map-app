@@ -1,15 +1,36 @@
-import { Conditional } from '@angular/compiler';
-import { Component,Input, OnInit } from '@angular/core';
+import { Component,Input } from '@angular/core';
 import { DisplayerService } from './displayer.service';
+import { trigger, transition, state, animate, style } from '@angular/animations';
 
 @Component({
   selector: 'app-displayer',
   templateUrl: './displayer.component.html',
-  styleUrls: ['./displayer.component.css']
+  styleUrls: ['./displayer.component.css'],
+  animations: [
+    trigger('displayerSlider', [
+      // ...
+      state('open', style({
+        'max-width': '300px',
+        opacity: 1,
+        
+      })),
+      state('closed', style({
+        width: '0',
+        visibility: "hidden",
+        opacity: 0.1,
+      })),
+      
+      transition('open => closed,closed=>open', [
+        animate('1s')
+      ]),
+      
+    ]),
+  ]
 })
-export class DisplayerComponent implements OnInit {
+export class DisplayerComponent {
   public temperature:any;
   public layerName:any;
+  isOpen = false;
 
   @Input() public set info(v : any) {
     if (v) {
@@ -21,21 +42,17 @@ export class DisplayerComponent implements OnInit {
         let valueNumber = Number(value);
         let valueCelsius = valueNumber-273.15;
         this.temperature = valueCelsius.toFixed(2);
-        this.layerName = v.configuration.options.layers;
-        document.querySelector(".displayer")?.classList.remove("hidden");
+        this.layerName = v.configuration.name;
+        //document.querySelector(".displayer")?.classList.remove("hidden");
+        this.isOpen = true;
         //console.log(value);
       });
     }
   }
   
   constructor(public displayerService: DisplayerService){}
-
-  ngOnInit(): void {
-    const buttonClose = document.querySelector(".close-btn");
-    buttonClose?.addEventListener("click", () => {
-      // close sidebar when click on close button
-      document.querySelector(".displayer")?.classList.add("hidden");
-    });
-  
+  toggle() {
+    this.isOpen = false;
   }
+  
 }

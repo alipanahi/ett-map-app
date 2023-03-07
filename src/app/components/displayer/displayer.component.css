@@ -4,11 +4,9 @@
   top: 5px;
   left: 5px;
   padding: 5px;
-  width: auto;
-  max-width: 480px;
   z-index: 99999;
   background: #fff;
-  overflow: hidden;
+  
   height: auto;
   box-shadow: 0px 0px 22px -11px rgba(66, 68, 90, 1);
   }
@@ -16,20 +14,21 @@
   .hidden {
     display: none;
   }
-  
-  .close-btn {
+
+.close-btn {
     cursor: pointer;
     position: absolute;
-    right: 2px;
-    top: 2px;
+    right: 3px;
+    top: 3px;
     border: none;
     margin: 0;
     z-index: 1;
     background: none;
-    color: red;
+    color: #c53d2f;
     font-size: 15px;
-  }
-  .map-legend {
+    font-weight: bold;
+}
+.map-legend {
     display: block;
     position: relative;
 }
@@ -49,5 +48,14 @@
   color: #fff;
   text-align: center;
 }
-  
+.degree{
+  text-align: center;
+  font-weight: bold;
+}
+.hot{
+  color: red;
+}
+.cold{
+  color: blue;
+}
   
