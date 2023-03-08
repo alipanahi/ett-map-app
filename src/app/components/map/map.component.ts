@@ -24,8 +24,11 @@ export class MapComponent implements OnInit, OnChanges {
   @Output() config = new EventEmitter<any>();
   private initMap(): void {
 
-    this.map = L.map('map').setView([44.414165, 8.942184], 6);
-
+    this.map = L.map('map',{zoomControl: false}).setView([44.414165, 8.942184], 6);
+    L.control.zoom({
+      position: 'bottomright'
+    }).addTo(this.map);
+    
     this.layerGroup = L.layerGroup().addTo(this.map);
 
     this.map.on('click', (point: any) =>{

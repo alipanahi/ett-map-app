@@ -10,14 +10,11 @@ import { trigger, transition, state, animate, style } from '@angular/animations'
     trigger('displayerSlider', [
       // ...
       state('open', style({
-        'max-width': '300px',
-        opacity: 1,
+        left:"5px"
         
       })),
       state('closed', style({
-        width: '0',
-        visibility: "hidden",
-        opacity: 0.1,
+        left:"-200px"
       })),
       
       transition('open => closed,closed=>open', [
@@ -31,7 +28,7 @@ export class DisplayerComponent {
   public temperature:any;
   public layerName:any;
   isOpen = false;
-
+  displayer_width:any;
   @Input() public set info(v : any) {
     if (v) {
       this.displayerService.getFeature(v).subscribe(layer => {
@@ -43,9 +40,9 @@ export class DisplayerComponent {
         let valueCelsius = valueNumber-273.15;
         this.temperature = valueCelsius.toFixed(2);
         this.layerName = v.configuration.name;
-        //document.querySelector(".displayer")?.classList.remove("hidden");
+        document.querySelector(".displayer")?.classList.remove("hidden");
+        
         this.isOpen = true;
-        //console.log(value);
       });
     }
   }

@@ -2,11 +2,10 @@
   border: 2px solid blue;
   position: absolute;
   top: 5px;
-  left: 5px;
+  width: 200px;
   padding: 5px;
-  z-index: 99999;
+  z-index: 1000;
   background: #fff;
-  
   height: auto;
   box-shadow: 0px 0px 22px -11px rgba(66, 68, 90, 1);
   }
