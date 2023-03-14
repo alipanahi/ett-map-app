@@ -20,4 +20,5 @@ export class LayersService {
   getBaselayer() {
     return this.http.get('/assets/baselayer.json');
   }
+  
 }

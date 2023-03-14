@@ -1,7 +1,9 @@
 <div class="map-container">
 
-    <app-map (config)="setConfiguration($event)" [selectedLayer]="selectedLayer" [addMarker]="addRemoveMarker" [baselayer]="baselayer"></app-map>
-    <app-controller (selectedLayer)="addSelectedLayer($event)" (addRemoveData)="addRemoveData($event)" [layerArray]="layerArray"></app-controller>
+    <app-map (config)="setConfiguration($event)" [selectedLayer]="selectedLayer" [addMarker]="addRemoveMarker"
+        [baselayer]="baselayer"></app-map>
+    <app-controller (selectedLayer)="addSelectedLayer($event)" (addRemoveData)="addRemoveData($event)"
+        [layerArray]="layerArray"></app-controller>
     <app-displayer [info]="configuration"></app-displayer>
+    <app-legend [selectedLayer]="selectedLayer"></app-legend>
 </div>
-    

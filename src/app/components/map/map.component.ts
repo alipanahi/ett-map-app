@@ -59,28 +59,20 @@ export class MapComponent implements OnInit, OnChanges {
       if (changes['selectedLayer'].currentValue !== changes['selectedLayer'].previousValue) {
         this.layerGroup.clearLayers();
         if (this.selectedLayer !== 'default') {
-          var legend = L.control({ position: 'bottomright' });
+          
           if (this.selectedLayer[0].name == 'Temperatura a 2 m (3Km)') {
             let now = new Date(); now.setHours(12, 0, 0, 0);
             let nowString = now.toISOString();
             let options = this.selectedLayer[0].options;
             let activeLayer = L.tileLayer.wms(this.selectedLayer[0].url, { ...options, time: nowString });
             this.layerGroup.addLayer(activeLayer);
-            let legendURL = this.selectedLayer[0].legend.url;
-            legend.onAdd = function () {
-              var div = document.querySelector(".wms_legend");
-              var url = legendURL;
-
-              div!.innerHTML = '<img src=' + url + ' alt="legend" width="75" height="100">';
-              return div;
-            };
-            legend.addTo(this.map);
+            
             
           }else{
             let activeLayer = L.tileLayer.wms(this.selectedLayer[0].url,this.selectedLayer[0].options);
             this.layerGroup.addLayer(activeLayer);
-            var div = document.querySelector(".wms_legend");
-            div!.innerHTML = '';
+            var div = document.querySelector("#wms_legend");
+            //div!.innerHTML = '';
           }
         }
       }

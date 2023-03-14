@@ -10,6 +10,7 @@ import { MapWrapperComponent } from './components/map-wrapper/map-wrapper.compon
 import { ControllerComponent } from './components/map-wrapper/controller/controller.component';
 import { DisplayerComponent } from './components/displayer/displayer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LegendComponent } from './components/map-wrapper/legend/legend.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +18,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HomeComponent,
     MapWrapperComponent,
     ControllerComponent,
-    DisplayerComponent
+    DisplayerComponent,
+    LegendComponent
   ],
   imports: [
     BrowserModule,

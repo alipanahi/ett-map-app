@@ -37,6 +37,7 @@ export class MapWrapperComponent implements OnInit {
     //fetch data from json file
     this.layerService.getLayers().subscribe(layers => {
       this.layerArray = layers;
+      //this.legend = this.layerArray.filter((layer:any)=>layer.name=='Temperatura a 2 m (3Km)');
     });
     
   }

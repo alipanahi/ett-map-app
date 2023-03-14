@@ -1,0 +1,11 @@
+#wms_legend{
+    height: 200px;
+    width: 50px;
+    position: absolute;
+    bottom: 100px;
+    right: 10px;
+    z-index: 99999;
+}
+.hidden {
+    display: none;
+}
