@@ -29,8 +29,8 @@
         "getFeatureLayers": "Temperature_height_above_ground",
         "legend": {
             "url": "http://188.166.63.249/thredds/wms/grib/SINDBAD-NEP?REQUEST=GetLegendGraphic&PALETTE=rainbow&COLORBARONLY=true&NUMCOLORBANDS=100",
-            "min": 263.15,
-            "max": 313.15,
+            "min": -10,
+            "max": 40,
             "unit": "K",
             "logscale": false,
             "color": [
