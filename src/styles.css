@@ -1,8 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 .temp_div{
-    width: 50px;
-    min-height: 1px;
-    cursor: pointer;
+    flex-grow: 1;
     position: relative;
 }
 .legend-tooltip{
