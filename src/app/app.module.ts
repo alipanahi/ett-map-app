@@ -11,6 +11,8 @@ import { ControllerComponent } from './components/map-wrapper/controller/control
 import { DisplayerComponent } from './components/displayer/displayer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LegendComponent } from './components/map-wrapper/legend/legend.component';
+import { HighchartsChartModule } from 'highcharts-angular';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +27,8 @@ import { LegendComponent } from './components/map-wrapper/legend/legend.componen
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    HighchartsChartModule
   ],
   providers: [
     LayersService

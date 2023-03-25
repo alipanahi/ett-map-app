@@ -15,7 +15,7 @@ export class DisplayerService {
     
     return this.http.get<any>(url, {params: options, responseType: 'text' as 'json'});
   }
-  public setOptions(info: any): any{console.log(info);
+  public setOptions(info: any): any{
     const nw = info.crs.project(info.bounds.getNorthWest());
     const se = info.crs.project(info.bounds.getSouthEast());
     const bbox = [nw.x, se.y, se.x, nw.y].join(',');
@@ -39,6 +39,27 @@ export class DisplayerService {
       CRS: info.crs.code,
       tiled: true,
       url: info.configuration.getFeatureInfoUrl
+    };
+
+    return options;
+  }
+
+  public getForcastingData(info : any,start:String,end:String): Observable<any>{
+    let options = this.setDataOptions(info,start,end);
+    let url = info.configuration.ncss.url;
+    
+    return this.http.get<any>(url, {params: options, responseType: 'text' as 'json'});
+  }
+  public setDataOptions(info: any,start:String,end:String): any{
+    const options = {
+      var: info.configuration.ncss.ncssName,
+      latitude: info.point.latlng.lat,
+      longitude: info.point.latlng.lng,
+      time_start:start,
+      time_end:end,
+      vertCoord: info.configuration.ncss.vertCoord,
+      //accept:'xml',
+      url: info.configuration.ncss.url+"&accept=xml",
     };
 
     return options;

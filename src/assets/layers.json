@@ -51,6 +51,14 @@
               "rgb(180,0,35)"
             ]
         },
+        "ncss": {
+            "displayName": "Temperatura a 2 m (3 Km)",
+            "color": "#eb2d7c",
+            "unit": "K",
+            "url": "http://188.166.63.249/thredds/ncss/grib/SINDBAD-SON?",
+            "ncssName": "Temperature_height_above_ground",
+            "vertCoord": "2.0"
+        },
         "options":{
             "layers": "Temperature_height_above_ground_SON",
             "format": "image/png",

@@ -21,7 +21,6 @@ export class LegendComponent{
       if (l[0].name=='Temperatura a 2 m (3Km)') {//only for our wms layer
         //loop form max temp to min temp to create the objects
         
-        /*
         //using background color
         for(let i=l[0].legend.max;i>=l[0].legend.min;i--){
           temps.push({"temperature": i})
@@ -29,20 +28,23 @@ export class LegendComponent{
         let url = l[0].legend.url
         div!.classList.remove("hidden")
         div!.style.backgroundImage = "url('"+url+"')"
-        */
+        
        //using colors
+       /*
         let baseTemp = Number(l[0].legend.min)
         let eachStepTemp = Number(((l[0].legend.max - l[0].legend.min) / l[0].legend.color.length).toFixed(2))
         for(let i=0;i<=l[0].legend.color.length;i++){
           temps.push({"color": l[0].legend.color[i],"temperature":baseTemp.toFixed(0)})
           baseTemp+=eachStepTemp
         }
+        */
         //create div element for every object of temperature
         temps.forEach((item:any,index:number)=>{
           let elem = document.createElement('div')
           elem.setAttribute('id',"temp_"+index)
           //put color
-          elem!.style.backgroundColor = item.color
+          //elem!.style.backgroundColor = item.color
+          elem!.style.backgroundColor = item.temperature
           div!.appendChild(elem)
           elem.classList.add("temp_div")
           //create span as tooltip for every div

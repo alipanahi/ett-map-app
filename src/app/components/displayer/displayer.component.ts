@@ -31,6 +31,17 @@ export class DisplayerComponent {
   displayer_width:any;
   @Input() public set info(v : any) {
     if (v) {
+      let startDate = new Date()
+      startDate.setHours(0,0,0,0)
+      let endDate = new Date()
+      endDate.setDate(new Date().getDate()+2)
+      endDate.setHours(0,0,0,0)
+      //console.log(endDate)
+      this.displayerService.getForcastingData(v,startDate.toISOString(),endDate.toISOString()).subscribe(data=>{
+        let parser = new DOMParser();
+        let xmlDoc = parser.parseFromString(data,"text/xml");
+        console.log(xmlDoc)
+      })
       this.displayerService.getFeature(v).subscribe(layer => {
         //console.log('service',layer);
         let parser = new DOMParser();
