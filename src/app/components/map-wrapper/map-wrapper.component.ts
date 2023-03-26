@@ -17,6 +17,7 @@ export class MapWrapperComponent implements OnInit {
   public layerArray:any;
   public baselayer:any;
   public configuration:any;
+  public forecastingData:any;
 
   addSelectedLayer(layer:any):void{
     this.selectedLayer = layer;
@@ -28,6 +29,10 @@ export class MapWrapperComponent implements OnInit {
   setConfiguration(config:any):void{
     this.configuration = config;
     
+  }
+  setForecastingData(data:any):void{
+    this.forecastingData = data;
+    //console.log(data)
   }
   ngOnInit(): void {
     //fetch baselayer inof from json file

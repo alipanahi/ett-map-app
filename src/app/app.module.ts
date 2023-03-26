@@ -12,6 +12,7 @@ import { DisplayerComponent } from './components/displayer/displayer.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LegendComponent } from './components/map-wrapper/legend/legend.component';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { PlotComponent } from './components/plot/plot.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { HighchartsChartModule } from 'highcharts-angular';
     MapWrapperComponent,
     ControllerComponent,
     DisplayerComponent,
-    LegendComponent
+    LegendComponent,
+    PlotComponent
   ],
   imports: [
     BrowserModule,

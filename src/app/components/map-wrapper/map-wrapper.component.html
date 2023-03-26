@@ -4,6 +4,7 @@
         [baselayer]="baselayer"></app-map>
     <app-controller (selectedLayer)="addSelectedLayer($event)" (addRemoveData)="addRemoveData($event)"
         [layerArray]="layerArray"></app-controller>
-    <app-displayer [info]="configuration"></app-displayer>
+    <app-displayer [info]="configuration" (forecastingData)="setForecastingData($event)"></app-displayer>
     <app-legend [selectedLayer]="selectedLayer"></app-legend>
+    <app-plot [data]="forecastingData"></app-plot>
 </div>

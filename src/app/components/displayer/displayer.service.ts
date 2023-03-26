@@ -44,7 +44,7 @@ export class DisplayerService {
     return options;
   }
 
-  public getForcastingData(info : any,start:String,end:String): Observable<any>{
+  public getForecastingData(info : any,start:String,end:String): Observable<any>{
     let options = this.setDataOptions(info,start,end);
     let url = info.configuration.ncss.url;
     

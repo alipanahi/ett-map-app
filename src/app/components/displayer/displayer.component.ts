@@ -1,4 +1,4 @@
-import { Component,Input } from '@angular/core';
+import { Component,Input, Output,EventEmitter } from '@angular/core';
 import { DisplayerService } from './displayer.service';
 import { trigger, transition, state, animate, style } from '@angular/animations';
 
@@ -27,6 +27,7 @@ import { trigger, transition, state, animate, style } from '@angular/animations'
 export class DisplayerComponent {
   public temperature:any;
   public layerName:any;
+  @Output() forecastingData = new EventEmitter<any>();
   isOpen = false;
   displayer_width:any;
   @Input() public set info(v : any) {
@@ -37,10 +38,11 @@ export class DisplayerComponent {
       endDate.setDate(new Date().getDate()+2)
       endDate.setHours(0,0,0,0)
       //console.log(endDate)
-      this.displayerService.getForcastingData(v,startDate.toISOString(),endDate.toISOString()).subscribe(data=>{
-        let parser = new DOMParser();
-        let xmlDoc = parser.parseFromString(data,"text/xml");
-        console.log(xmlDoc)
+      this.displayerService.getForecastingData(v,startDate.toISOString(),endDate.toISOString()).subscribe(data=>{
+        let dataparser = new DOMParser();
+        let xmlData = dataparser.parseFromString(data,"text/xml");
+        this.forecastingData.emit(xmlData);
+        //console.log(xmlData)
       })
       this.displayerService.getFeature(v).subscribe(layer => {
         //console.log('service',layer);
