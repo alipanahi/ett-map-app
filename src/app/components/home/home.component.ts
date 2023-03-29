@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import * as Highcharts from 'highcharts';
+
 
 @Component({
   selector: 'app-home',
@@ -7,11 +7,5 @@ import * as Highcharts from 'highcharts';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  Highcharts: typeof Highcharts = Highcharts;
-  chartOptions: Highcharts.Options = {
-    series: [{
-      data: [1, 2, 3],
-      type: 'line'
-    }]
-  }
+  
 }

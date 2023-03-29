@@ -29,7 +29,6 @@ export class DisplayerComponent {
   public layerName:any;
   @Output() forecastingData = new EventEmitter<any>();
   isOpen = false;
-  displayer_width:any;
   @Input() public set info(v : any) {
     if (v) {
       let startDate = new Date()
@@ -41,7 +40,9 @@ export class DisplayerComponent {
       this.displayerService.getForecastingData(v,startDate.toISOString(),endDate.toISOString()).subscribe(data=>{
         let dataparser = new DOMParser();
         let xmlData = dataparser.parseFromString(data,"text/xml");
-        this.forecastingData.emit(xmlData);
+        let value = xmlData.getElementsByTagName("point");
+        this.forecastingData.emit(value);
+        document.querySelector(".graph")?.classList.remove("hidden");
         //console.log(xmlData)
       })
       this.displayerService.getFeature(v).subscribe(layer => {
