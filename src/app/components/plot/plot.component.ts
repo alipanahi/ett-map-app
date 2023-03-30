@@ -27,8 +27,7 @@ import { trigger, transition, state, animate, style } from '@angular/animations'
 })
 export class PlotComponent implements OnChanges {
   isOpen = false
-  temp_array: Array<number> = []
-  value_array: Array<string>=[]
+  value_array: Array<Array<any>>=[]
   @Input() data: any
   updateFlag = false;
   Highcharts: typeof Highcharts = Highcharts;
@@ -37,7 +36,11 @@ export class PlotComponent implements OnChanges {
       text: "Temperature height above ground"
     },
     xAxis: {
-      categories: this.value_array
+      type: 'datetime',
+      labels: {
+        format: '{value:%e-%b,%H %p}'
+      },
+      //categories: this.value_array
     },
     yAxis: {
       title: {
@@ -46,7 +49,7 @@ export class PlotComponent implements OnChanges {
     },
     series: [
       {
-        name: 'Hours of the day',
+        name: 'Temprature',
         type: 'line',
         data: []
       }
@@ -78,20 +81,21 @@ export class PlotComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['data']) {
       if (changes['data'].currentValue !== changes['data'].previousValue) {
-        this.temp_array=[]//empty the old data
+        this.value_array=[]//empty the old data
         let data = changes['data'].currentValue
         for (let item of data) {
 
-          let date = new Date(item.childNodes[0].textContent).getHours()
-          this.value_array.push(String(date))
+          let date = new Date(item.childNodes[0].textContent).getTime()
+          //this.value_array.push(String(date))
           let temp = item.childNodes[4].textContent
           let valueCelsius = Number(temp)-273.15;
-          this.temp_array.push(Number(valueCelsius.toFixed(1)))
+          //this.temp_array.push(Number(valueCelsius.toFixed(1)))
+          this.value_array.push([date,Number(valueCelsius.toFixed(1))])
         }
-        
+        console.log(this.value_array)
         this.chartOptions.series = [{
             type: 'line',
-            data: this.temp_array,
+            data: this.value_array,
 
         }]
         this.updateFlag = true
