@@ -57,4 +57,21 @@
 .cold{
   color: blue;
 }
+.graph-btn-div{
+  text-align: center;
+}
+.graph-btn {
+  cursor: pointer;
+  
+  border: none;
+  background: blue;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+}
+.graph-btn:hover {
+  background: white;
+  color: blue;
+  border: 1px solid blue;
+}
   

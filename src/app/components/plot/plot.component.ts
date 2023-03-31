@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges,Output,EventEmitter } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { Options } from "highcharts";
 import { trigger, transition, state, animate, style } from '@angular/animations';
@@ -60,28 +60,16 @@ export class PlotComponent implements OnChanges {
       }
     ] 
   };
-  // @Input() public set data(d : any) {
-  //   if (d) {
-  //     //console.log("forecastingData",d)
-  //     //let points = d.getElementsByTagName('point')
-  //     //console.log("forecastingData", points)
-
-  //     for(const point in d){
-  //       let data = d[point]
-  //       //let date = data.querySelector("[name=date]");
-  //       //let temp = data.querySelector("[name=Temperature_height_above_ground]").textContent
-  //       //let valueCelsius = Number(temp)-273.15;
-  //       //this.temp_array.push(Number(valueCelsius.toFixed(0)))
-  //     }
-
-  //     this.isOpen = true
-
-  //   }
-  //   console.log(this.temp_array)
-  // }
-
+  @Input() public set graphDisplayer(d : any) {
+    if (d) {
+      this.isOpen = d
+    }
+  }
+ 
+  @Output() closeGraph = new EventEmitter<any>();
   toggle() {
     this.isOpen = false;
+    this.closeGraph.emit(false);
   }
   changeAnimation(){
     this.chartOptions.series = [{
@@ -114,9 +102,9 @@ export class PlotComponent implements OnChanges {
 
         }]
         this.updateFlag = true
-        this.isOpen = true
 
       }
     }
+    
   }
 }

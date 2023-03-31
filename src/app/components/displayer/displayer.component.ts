@@ -29,8 +29,11 @@ export class DisplayerComponent {
   public layerName:any;
   @Output() forecastingData = new EventEmitter<any>();
   isOpen = false;
+  graphShow = false;
+  @Output() openGraphDisplayer = new EventEmitter<boolean>();
+
   @Input() public set info(v : any) {
-    if (v) {
+    if (v) {console.log('map clicked')
       let startDate = new Date()
       startDate.setHours(0,0,0,0)
       let endDate = new Date()
@@ -43,6 +46,8 @@ export class DisplayerComponent {
         let value = xmlData.getElementsByTagName("point");
         this.forecastingData.emit(value);
         document.querySelector(".graph")?.classList.remove("hidden");
+        this.graphShow = true;
+
         //console.log(xmlData)
       })
       this.displayerService.getFeature(v).subscribe(layer => {
@@ -64,6 +69,9 @@ export class DisplayerComponent {
   constructor(public displayerService: DisplayerService){}
   toggle() {
     this.isOpen = false;
+  }
+  openGraph(){
+    this.openGraphDisplayer.emit(true);
   }
   
 }

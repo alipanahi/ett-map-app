@@ -18,6 +18,7 @@ export class MapWrapperComponent implements OnInit {
   public baselayer:any;
   public configuration:any;
   public forecastingData:any;
+  public graphDisplayer:any;
 
   addSelectedLayer(layer:any):void{
     this.selectedLayer = layer;
@@ -34,6 +35,11 @@ export class MapWrapperComponent implements OnInit {
     this.forecastingData = data;
     //console.log(data)
   }
+  setopenGraphDisplayer(data:boolean):void{
+    this.graphDisplayer = data;
+    //console.log(data)
+  }
+  
   ngOnInit(): void {
     //fetch baselayer inof from json file
     this.layerService.getBaselayer().subscribe(layer => {
