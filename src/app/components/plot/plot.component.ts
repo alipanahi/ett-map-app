@@ -47,8 +47,13 @@ export class PlotComponent implements OnChanges {
         text: "Temperature"
       }
     },
+    tooltip: {
+      shared: true,
+      valueSuffix: " °C"
+    },
     series: [
-      {
+      {   
+        color:"blue",
         name: 'Temprature',
         type: 'line',
         data: []
@@ -78,6 +83,16 @@ export class PlotComponent implements OnChanges {
   toggle() {
     this.isOpen = false;
   }
+  changeAnimation(){
+    this.chartOptions.series = [{
+      animation: {
+        duration: 5000,
+        //easing:"easeInOutSine"//"easeInOutSine",easeOutBounce
+      },
+      type: 'line',
+    }]
+    this.updateFlag = true
+  }
   ngOnChanges(changes: SimpleChanges) {
     if (changes['data']) {
       if (changes['data'].currentValue !== changes['data'].previousValue) {
@@ -92,10 +107,10 @@ export class PlotComponent implements OnChanges {
           //this.temp_array.push(Number(valueCelsius.toFixed(1)))
           this.value_array.push([date,Number(valueCelsius.toFixed(1))])
         }
-        console.log(this.value_array)
+        
         this.chartOptions.series = [{
-            type: 'line',
-            data: this.value_array,
+          type: 'line',
+          data: this.value_array,
 
         }]
         this.updateFlag = true

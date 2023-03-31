@@ -2,6 +2,9 @@
     <button aria-label="close sidebar" (click)="toggle()" type="button" class="close-btn">
     X
     </button>
+    <button *ngIf="isOpen" (click)="changeAnimation()" type="button" class="animation-btn">
+        Animation
+    </button>
     <highcharts-chart 
         [Highcharts]="Highcharts"
         [options]="chartOptions"

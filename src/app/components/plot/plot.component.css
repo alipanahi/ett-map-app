@@ -27,3 +27,21 @@
     font-size: 15px;
     font-weight: bold;
 }
+.animation-btn {
+    cursor: pointer;
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    border: none;
+    margin: 0;
+    z-index: 1;
+    background: blue;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+}
+.animation-btn:hover {
+    background: white;
+    color: blue;
+    border: 1px solid blue;
+}
