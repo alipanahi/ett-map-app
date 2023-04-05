@@ -19,6 +19,7 @@ export class LegendComponent{
       let div = document.getElementById('wms_legend');
       let temps = []
       if (l[0].name=='Temperatura a 2 m (3Km)') {//only for our wms layer
+        div!.innerHTML=''
         //loop form max temp to min temp to create the objects
         
         //using background color
@@ -26,7 +27,8 @@ export class LegendComponent{
           temps.push({"temperature": i})
         }
         let url = l[0].legend.url
-        div!.classList.remove("hidden")
+        //div!.classList.remove("hidden")
+        div!.style.display='flex'
         div!.style.backgroundImage = "url('"+url+"')"
         
        //using colors
@@ -63,8 +65,8 @@ export class LegendComponent{
           })
         })
         
-      }else{
-        div!.classList.add("hidden");
+      }else{console.log(div)
+        div!.style.display='none'
       }
     }
   }

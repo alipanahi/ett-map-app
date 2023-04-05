@@ -18,7 +18,7 @@ import { trigger, transition, state, animate, style } from '@angular/animations'
       })),
       
       transition('open => closed,closed=>open', [
-        animate('1s')
+        animate('.6s')
       ]),
       
     ]),
@@ -29,11 +29,10 @@ export class DisplayerComponent {
   public layerName:any;
   @Output() forecastingData = new EventEmitter<any>();
   isOpen = false;
-  graphShow = false;
+  graphDisabl = true;
   @Output() openGraphDisplayer = new EventEmitter<boolean>();
-
   @Input() public set info(v : any) {
-    if (v) {console.log('map clicked')
+    if (v) {
       let startDate = new Date()
       startDate.setHours(0,0,0,0)
       let endDate = new Date()
@@ -46,8 +45,10 @@ export class DisplayerComponent {
         let value = xmlData.getElementsByTagName("point");
         this.forecastingData.emit(value);
         document.querySelector(".graph")?.classList.remove("hidden");
-        this.graphShow = true;
-
+        
+        this.graphDisabl = false;
+        document.getElementById('graph_btn')?.classList.add('graph-btn')
+        
         //console.log(xmlData)
       })
       this.displayerService.getFeature(v).subscribe(layer => {

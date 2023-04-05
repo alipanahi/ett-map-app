@@ -16,7 +16,7 @@
           </label>
       </div>
       <div class="graph-btn-div">
-        <button *ngIf="graphShow" class="graph-btn" (click)="openGraph()">Open Graph</button>
+        <input type="button" id="graph_btn" (click)="openGraph()" [disabled]="graphDisabl" value="Open Graph"/>
       </div>
   </section>
 </div>
